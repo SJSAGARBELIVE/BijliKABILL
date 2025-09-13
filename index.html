@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Electricity Bill Calculator</title>
+  <style>
+    :root{
+      --bg1: #0f172a;
+      --bg2: #0b1220;
+      --card: #0b1225;
+      --accent: #7c3aed;
+      --muted: #94a3b8;
+      --glass: rgba(255,255,255,0.03);
+      --radius: 14px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:24px;
+      background: linear-gradient(135deg,var(--bg1), var(--bg2));
+      color:#e6eef8;
+    }
+
+    .card{
+      width:100%;
+      max-width:720px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:var(--radius);
+      padding:28px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      border: 1px solid rgba(255,255,255,0.03);
+      display:grid;
+      gap:18px;
+    }
+
+    header {
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+    .logo {
+      width:56px;
+      height:56px;
+      border-radius:12px;
+      background: linear-gradient(135deg, rgba(124,58,237,0.18), rgba(59,130,246,0.08));
+      display:grid;
+      place-items:center;
+      font-weight:700;
+      color:var(--accent);
+      font-size:20px;
+      border: 1px solid rgba(124,58,237,0.12);
+    }
+    h1{margin:0;font-size:20px}
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+
+    .form-row{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    label{font-size:13px;color:var(--muted)}
+    input[type="number"]{
+      appearance:none;
+      padding:12px 14px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.04);
+      background:var(--glass);
+      color:inherit;
+      font-size:16px;
+      min-width:140px;
+      outline:none;
+    }
+    button{
+      padding:12px 16px;
+      border-radius:10px;
+      border: none;
+      background: linear-gradient(90deg,var(--accent), #2563eb);
+      color:white;
+      font-weight:600;
+      cursor:pointer;
+      box-shadow: 0 6px 18px rgba(124,58,237,0.18);
+    }
+    button.secondary{
+      background: transparent;
+      border:1px solid rgba(255,255,255,0.04);
+      color:var(--muted);
+      font-weight:600;
+    }
+
+    .result {
+      margin-top:8px;
+      padding:14px;
+      border-radius:10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+      border:1px dashed rgba(255,255,255,0.03);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+    .big {
+      font-size:18px;
+      font-weight:700;
+    }
+    .muted { color:var(--muted); font-size:13px; }
+
+    .slabs {
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:6px;
+    }
+    .chip{
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.02);
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    footer { color:var(--muted); font-size:12px; text-align:right;}
+    @media (max-width:520px){
+      .form-row {flex-direction:column; align-items:stretch}
+      .result{flex-direction:column; align-items:flex-start}
+      footer{text-align:left}
+    }
+  </style>
+</head>
+<body>
+  <main class="card" role="main">
+    <header>
+      <div class="logo">EB</div>
+      <div>
+        <h1>Electricity Bill Calculator</h1>
+        <p class="lead">Enter consumed units and get the bill based on slab rates.</p>
+      </div>
+    </header>
+
+    <div>
+      <label for="units">Units consumed</label>
+      <div class="form-row">
+        <input id="units" type="number" min="0" step="1" placeholder="e.g. 325" />
+        <button id="calc">Calculate</button>
+        <button id="reset" class="secondary" type="button">Reset</button>
+      </div>
+
+      <div class="slabs" aria-hidden="true">
+        <div class="chip">0–100 : ₹4.2 / unit</div>
+        <div class="chip">101–200 : ₹6 / unit</div>
+        <div class="chip">201–400 : ₹8 / unit</div>
+        <div class="chip">401+ : ₹13 / unit</div>
+      </div>
+    </div>
+
+    <div id="output" class="result" aria-live="polite">
+      <div>
+        <div class="muted">Total Amount</div>
+        <div id="amount" class="big">—</div>
+      </div>
+      <div style="text-align:right">
+        <div class="muted">Breakdown</div>
+        <div id="breakdown" class="muted">—</div>
+      </div>
+    </div>
+
+    <footer>Calculated with slab rates. Open this file in any browser.</footer>
+  </main>
+
+  <script src="Bill.js"></script>
+</body>
+</html>
